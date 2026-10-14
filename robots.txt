@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vietlh93.github.io/xekhachquangninh/sitemap.xml
