@@ -6,7 +6,7 @@
 
 // CẤU HÌNH LIÊN KẾT GOOGLE SHEETS TẠI ĐÂY:
 // Dán Web App URL lấy từ Google Apps Script (xem file HUONG_DAN_GOOGLE_SHEETS.md)
-const GOOGLE_SHEET_URL = ""; 
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzc227B7v-ypT0Zn4Z3B_aFjDaP3rgsx83aqABplbpac-C2tC_wvsjgg3v_QwZI6e_ivw/exec"; 
 
 // Thông tin liên hệ
 const HOTLINE_NUMBER = "0899669811";
