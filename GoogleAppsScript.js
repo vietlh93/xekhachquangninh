@@ -19,7 +19,12 @@
  *     https://script.google.com/macros/s/AKfycb.../exec
  * 11. Mở file `js/main.js` của trang web, dán URL vừa copy vào biến GOOGLE_SHEET_URL ở dòng đầu tiên!
  * ==============================================================================
- */
+// ==============================================================================
+// CẤU HÌNH BẮN THÔNG BÁO VỀ TELEGRAM (MIỄN PHÍ - NỔ CHUÔNG ĐIỆN THOẠI NGAY)
+// ==============================================================================
+var TELEGRAM_BOT_TOKEN = "DIEN_BOT_TOKEN_VAO_DAY"; // Ví dụ: "7123456789:AAFl..."
+var TELEGRAM_CHAT_ID   = "DIEN_CHAT_ID_VAO_DAY";   // Ví dụ: "123456789"
+// ==============================================================================
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -85,6 +90,25 @@ function doPost(e) {
       "Mới nhận - Chờ gọi"
     ]);
 
+    // Gửi thông báo nổ chuông về Telegram nếu đã cấu hình
+    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID && TELEGRAM_BOT_TOKEN !== "DIEN_BOT_TOKEN_VAO_DAY") {
+      try {
+        sendTelegramNotification(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, {
+          hoTen: hoTen,
+          dienThoai: dienThoai,
+          diemDon: diemDon,
+          diemDen: diemDen,
+          loaiDichVu: loaiDichVu,
+          tuyChonXe: tuyChonXe,
+          thoiGian: thoiGian,
+          ghiChu: ghiChu,
+          thoiGianGui: thoiGianGui
+        });
+      } catch (tgError) {
+        Logger.log("Lỗi gửi Telegram: " + tgError.toString());
+      }
+    }
+
     return ContentService
       .createTextOutput(JSON.stringify({ result: "success", message: "Đã lưu thành công" }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -103,4 +127,35 @@ function doGet(e) {
   return ContentService
     .createTextOutput(JSON.stringify({ status: "alive", message: "Google Apps Script Đặt Xe đang hoạt động bình thường!" }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Hàm gửi tin nhắn thông báo về Telegram
+ */
+function sendTelegramNotification(token, chatId, info) {
+  var url = "https://api.telegram.org/bot" + token + "/sendMessage";
+  var text = "🚖 <b>CÓ KHÁCH ĐẶT XE MỚI!</b>\n" +
+             "━━━━━━━━━━━━━━━━━━━\n" +
+             "👤 <b>Khách hàng:</b> " + info.hoTen + "\n" +
+             "📞 <b>Điện thoại:</b> <code>" + info.dienThoai + "</code>\n" +
+             "📍 <b>Điểm đón:</b> " + info.diemDon + "\n" +
+             "🎯 <b>Điểm đến:</b> " + info.diemDen + "\n" +
+             "🚗 <b>Dịch vụ:</b> " + info.loaiDichVu + " (" + info.tuyChonXe + ")\n" +
+             "⏰ <b>Giờ đi:</b> " + info.thoiGian + "\n" +
+             "📝 <b>Ghi chú:</b> " + (info.ghiChu || "Không có") + "\n" +
+             "━━━━━━━━━━━━━━━━━━━\n" +
+             "🕒 <i>Đặt lúc: " + info.thoiGianGui + "</i>";
+
+  var payload = {
+    chat_id: chatId,
+    text: text,
+    parse_mode: "HTML"
+  };
+
+  UrlFetchApp.fetch(url, {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
 }
