@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vietlh93.github.io/xekhachquangninh/sitemap.xml
+Sitemap: https://xeghepmienbac.vn/sitemap.xml
