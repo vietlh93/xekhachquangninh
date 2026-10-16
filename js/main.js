@@ -14,7 +14,7 @@ const ZALO_URL = "https://zalo.me/0899669811";
 const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61577533037723";
 
 // CẤU HÌNH TRACKING GOOGLE ADS CONVERSION (Nếu có ID chuyển đổi Google Ads, điền vào đây):
-const GOOGLE_ADS_ID = ""; // Ví dụ: "AW-123456789/AbCdEfGhIj"
+const GOOGLE_ADS_ID = "AW-18516548044";
 
 document.addEventListener("DOMContentLoaded", function () {
   initFormSubmissions();
